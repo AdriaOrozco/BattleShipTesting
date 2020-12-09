@@ -1,5 +1,8 @@
 package BattelshipTesting;
 
+import javax.swing.JLabel;
+import javax.swing.JTextArea;
+
 import interfaces.IManagerIO;
 
 /**
@@ -11,22 +14,25 @@ import interfaces.IManagerIO;
 public class Menu {
 
 	IManagerIO managerIO;
-
-	public Menu(IManagerIO managerIO) {
+	JTextArea pantalla;
+	MockObjGUI gui;
+	public Menu(IManagerIO managerIO, MockObjGUI obj) {
 		this.managerIO = managerIO;
+		gui=obj;
 		this.showMenu();
 		getOption(managerIO);
-
+		
 	}
 
 	/**
 	 * Displays the main menu of the game
 	 */
 	public void showMenu() {
-
-		System.out.print("------Main Menu------\n");
-		System.out.print("1- Play\n");
-		System.out.print("2- Exit\n");
+		
+		pantalla=gui.getDisplay();
+		pantalla.append("------Main Menu------\n");
+		pantalla.append("1- Play\n");
+		pantalla.append("2- Exit\n");
 	}
 
 	/**
