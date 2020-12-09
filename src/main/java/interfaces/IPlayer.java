@@ -10,7 +10,7 @@ import BattelshipTesting.Board;
 public interface IPlayer {
 	
 	public Board getOwn();
-	public void locateBoat();
+	public void locateBoat() throws InterruptedException;
 	public boolean  isWinning();
-	public void attack(IPlayer jugador);
+	public void attack(IPlayer jugador) throws InterruptedException;
 }

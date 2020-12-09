@@ -37,7 +37,7 @@ public class PlayerTest {
 
 	/**
 	 * Test to check the creation of Player objects
-	 */
+	 
 	@Test
 	public void testCreatePlayer() {
 
@@ -51,7 +51,7 @@ public class PlayerTest {
 
 	/**
 	 * Test to check the creation of Player objects
-	 */
+	 
 	@Test
 	public void testCreateRandomIA() {
 
@@ -64,7 +64,7 @@ public class PlayerTest {
 
 	/**
 	 * Test to verify that the players attack correctly
-	 */
+	 
 	@Test
 	public void testPlayerAttack() {
 
@@ -80,7 +80,7 @@ public class PlayerTest {
 
 	/**
 	 * Test to verify that the machine random attack correctly
-	 */
+	 
 	@Test
 	public void testRandomAttack() {
 
@@ -101,7 +101,7 @@ public class PlayerTest {
 	@Test
 	public void testPlayerisWinning() {
 
-		new Menu(new ManagerIOMock(Constants.WINNER_PLAYER_SEQUENCE, Constants.WINNER_IA_SEQUENCE));
+		//new Menu(new ManagerIOMock(Constants.WINNER_PLAYER_SEQUENCE, Constants.WINNER_IA_SEQUENCE));
 		assertTrue(result.toString().contains("Game winner: HumanPlayer!!!"));
 
 	}

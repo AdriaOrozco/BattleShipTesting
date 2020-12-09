@@ -1,5 +1,7 @@
 package BattelshipTesting;
 
+import javax.swing.JTextArea;
+
 import interfaces.IManagerIO;
 import interfaces.IPlayer;
 
@@ -17,18 +19,21 @@ public class Player implements IPlayer {
 	Board own;
 	Board enemy;
 	int type;
+	JTextArea pantalla;
+	MockObjGUI gui;
 
 	/**
 	 * Player default constructor
 	 * 
 	 * @param string
 	 * @param managerIOMock
+	 * @throws InterruptedException 
 	 */
-	public Player(String name, IManagerIO managerIO) {
-
+	public Player(String name, IManagerIO managerIO, MockObjGUI uno) throws InterruptedException {
+		gui=uno;
 		this.name = name;
-		this.own = new Board(managerIO);
-		this.enemy = new Board(managerIO);
+		this.own = new Board(managerIO,gui);
+		this.enemy = new Board(managerIO,gui);
 		if (name.contains("IA")) {
 			this.type = 0;
 		} else {
@@ -41,15 +46,16 @@ public class Player implements IPlayer {
 
 	/**
 	 * Position ships on the board
+	 * @throws InterruptedException 
 	 */
-	public void locateBoat() {
-
+	public void locateBoat() throws InterruptedException {
+		pantalla=gui.getDisplay();
 		if (this.type == 1) {
-			System.out.println("Player: " + this.name + "\nPosition your boats!");
+			pantalla.append("Player: " + this.name + "\nPosition your boats!\n");
 
 			for (int i = 0; i < Constants.BOAT_LIST.length; i++) {
-				System.out.println(
-						"Position (X, Y) head of the ship it occupies " + Constants.BOAT_LIST[i] + " squares (1/1)");
+				pantalla.append(
+						"Position (X, Y) head of the ship it occupies " + Constants.BOAT_LIST[i] + " squares (1/1)\n");
 
 				own.insertPosicion(Constants.BOAT_LIST[i]);
 				own.showBoard();
@@ -57,7 +63,7 @@ public class Player implements IPlayer {
 			}
 		} else {
 
-			System.out.println("Machine: " + this.name + "\nRandomly positioning your boats!");
+			pantalla.append("Machine: " + this.name + "\nRandomly positioning your boats!\n");
 			for (int i = 0; i < Constants.BOAT_LIST.length; i++) {
 
 				own.insertPosicionRandom(Constants.BOAT_LIST[i]);
@@ -69,18 +75,19 @@ public class Player implements IPlayer {
 
 	/**
 	 * Allows you to attack between player
+	 * @throws InterruptedException 
 	 */
-	public void attack(IPlayer player) {
-
+	public void attack(IPlayer player) throws InterruptedException {
+		pantalla=gui.getDisplay();
 		if (this.type == 1) {
-			System.out.println("Player => " + this.name + " ATTACK!!!");
-			System.out.println("What position do you want to attack?");
+			pantalla.append("Player => " + this.name + " ATTACK!!!\n");
+			pantalla.append("What position do you want to attack?\n");
 
 			enemy.attack(player);
 			enemy.showBoard();
 
 		} else {
-			System.out.println("Machine => " + this.name + " ATTACK RANDOM!");
+			pantalla.append("Machine => " + this.name + " ATTACK RANDOM!\n");
 			enemy.attackRandom(player);
 			enemy.showBoard();
 

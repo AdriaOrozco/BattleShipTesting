@@ -1,5 +1,7 @@
 package BattelshipTesting;
 
+import javax.swing.JTextArea;
+
 import interfaces.IManagerIO;
 import interfaces.IPlayer;
 import utils.Constants;
@@ -15,13 +17,16 @@ public class Board {
 	IManagerIO managerIO;
 	int numberBoats = Constants.TOTAL_BOATS;
 	int[][] board = new int[Constants.BOARD_SIZE][Constants.BOARD_SIZE];
+	JTextArea pantalla;
+	MockObjGUI gui;
 
 	/**
 	 * Default Constructor
 	 * 
 	 * @param managerIO
 	 */
-	public Board(IManagerIO managerIO) {
+	public Board(IManagerIO managerIO, MockObjGUI uno) {
+		gui=uno;
 		this.managerIO = managerIO;
 		iniBoard();
 	}
@@ -41,39 +46,41 @@ public class Board {
 	 * Display the board by console A to K horizontal and 1 to 10 vertical
 	 */
 	public void showBoard() {
-		System.out.println("     _______________________________________");
-		System.out.println("    | A | B | C | D | F | G | H | I | J | K |");
+		pantalla=gui.getDisplay();
+		pantalla.append("     _______________________________________ \n");
+		pantalla.append("    | A | B | C | D | F | G | H | I | J | K |\n");
 		for (int i = 0; i < 10; i++) {
-			System.out.println("+---+---+---+---+---+---+---+---+---+---+---+");
+			pantalla.append("+---+---+---+---+---+---+---+---+---+---+---+\n");
 			if ((i + 1) == 10) {
-				System.out.print("| " + (i + 1) + "|");
+				pantalla.append("| " + (i + 1) + "|");
 			} else {
-				System.out.print("| " + (i + 1) + " |");
+				pantalla.append("| " + (i + 1) + " |");
 			}
 			for (int j = 0; j < 10; j++) {
 				if (board[i][j] == 1) {
-					System.out.print(" B |");
+					pantalla.append(" B |");
 				} else if (board[i][j] == 0 || board[i][j] == 4) {
-					System.out.print("   |");
+					pantalla.append("   |");
 				} else if (board[i][j] == 2) {
-					System.out.print(" X |");
+					pantalla.append(" X |");
 				} else if (board[i][j] == 3) {
-					System.out.print(" # |");
+					pantalla.append(" # |");
 				}
 
 			}
-			System.out.println();
+			pantalla.append("");
 		}
-		System.out.println("+---+---+---+---+---+---+---+---+---+---+---+");
+		pantalla.append("+---+---+---+---+---+---+---+---+---+---+---+\n");
 	}
 
 	/**
 	 * Inserts a size N ship at a user-provided position on the board
 	 * 
 	 * @param actualBoatSize
+	 * @throws InterruptedException 
 	 */
-	public void insertPosition(int actualBoatSize) {
-
+	public void insertPosition(int actualBoatSize) throws InterruptedException {
+		pantalla=gui.getDisplay();
 		boolean insertada = false;
 		Position posicion = new Position();
 		while (!insertada) {
@@ -83,7 +90,7 @@ public class Board {
 			insertada = isValidOrientation(posicion);
 
 			if (!insertada) {
-				System.out.println("Position " + posicion.toString() + "\nIt is not correct!\nEnter one again!");
+				pantalla.append("Position " + posicion.toString() + "\nIt is not correct!\nEnter one again!");
 			}
 		}
 		insertBoat(posicion);
@@ -223,15 +230,24 @@ public class Board {
 	 * Receive the orientation of the boat from the player
 	 * 
 	 * @return
+	 * @throws InterruptedException 
 	 */
-	public int readOrientation() {
-
+	public int readOrientation() throws InterruptedException {
+		pantalla=gui.getDisplay();
 		int orientacion = -1;
 		boolean aux = false;
 		while (!aux) {
-			System.out.println("Orientation:");
-			System.out.println(" 0-Right \n 1-Down \n 2-Up \n 3-Left \n");
-			int ori = managerIO.inInt();
+			pantalla.append("Orientation:");
+			pantalla.append(" 0-Right \n 1-Down \n 2-Up \n 3-Left \n");
+			int ori = gui.getDisplay2();
+			int z = gui.getDisplay2();
+			while(ori==z) {
+				ori = gui.getDisplay2();
+				//System.out.println(x);
+				Thread.sleep(1);
+			}
+			//Thread.sleep(4500);
+			//pantalla.setText("");
 
 			if (ori >= 0 && ori < 4) {
 				orientacion = ori;
@@ -245,16 +261,24 @@ public class Board {
 	 * Ask the player for a placement position
 	 * 
 	 * @return
+	 * @throws InterruptedException 
 	 */
-	public Position readPosition() {
-
+	public Position readPosition() throws InterruptedException {
+		pantalla=gui.getDisplay();
 		boolean aux = false;
 		Position lectura = new Position();
 		while (!aux) {
 
 			while (!aux) {
-				System.out.println("Position X (1-10):");
-				int x = managerIO.inInt();
+				pantalla.append("Position X (1-10):\n");
+				int x = gui.getDisplay2();
+				int z = gui.getDisplay2();
+				while(x==z) {
+					x = gui.getDisplay2();
+					Thread.sleep(1);
+				}
+				
+				//pantalla.setText("");
 				if (x > 0 && x < 11) {
 					lectura.setX(x - 1);
 					aux = true;
@@ -262,12 +286,20 @@ public class Board {
 			}
 			aux = false;
 			while (!aux) {
-				System.out.println("Position Y (1-10):");
-				int y = managerIO.inInt();
+				pantalla.append("Position Y (1-10):\n");
+				int y = gui.getDisplay2();
+				int z = gui.getDisplay2();
+				while(y==z) {
+					y = gui.getDisplay2();
+					//System.out.println(y);
+					Thread.sleep(1);
+				}
+				//pantalla.setText("");
 				if (y > 0 && y < 11) {
 					lectura.setY(y - 1);
 					aux = true;
 				}
+				pantalla.setText("");
 			}
 		}
 		return lectura;
@@ -277,8 +309,10 @@ public class Board {
 	 * Insert an N-size boat in a user-supplied dashboard position
 	 * 
 	 * @param sizeBoatCurrent
+	 * @throws InterruptedException 
 	 */
-	public void insertPosicion(int sizeBoatCurrent) {
+	public void insertPosicion(int sizeBoatCurrent) throws InterruptedException {
+		pantalla=gui.getDisplay();
 		boolean insertada = false;
 		Position position = new Position();
 		while (!insertada) {
@@ -288,7 +322,7 @@ public class Board {
 			insertada = isValidOrientation(position);
 
 			if (!insertada) {
-				System.out.println("Position " + position.toString() + "\nIt is not correct!\nEnter one again!");
+				pantalla.append("Position " + position.toString() + "\nIt is not correct!\nEnter one again!\n");
 			}
 		}
 		insertBoat(position);
@@ -301,6 +335,7 @@ public class Board {
 	 * @param SizeBoatCurrent
 	 */
 	public void insertPosicionRandom(int sizeBoatCurrent) {
+		pantalla=gui.getDisplay();
 		boolean insertada = false;
 		Position posicion = new Position();
 		while (!insertada) {
@@ -309,7 +344,8 @@ public class Board {
 			posicion.setSize(sizeBoatCurrent);
 			insertada = isValidOrientation(posicion);
 		}
-		System.out.println("AI-Random has already positioned its ships!\n");
+		pantalla.append("AI-Random has already positioned its ships!\n");
+		pantalla.setText("");
 		insertBoat(posicion);
 		posicion.toString();
 	}
@@ -370,18 +406,20 @@ public class Board {
 	 * The player attacks the machine
 	 * 
 	 * @param randomIA
+	 * @throws InterruptedException 
 	 */
-	public void attack(IPlayer randomIA) {
+	public void attack(IPlayer randomIA) throws InterruptedException {
+		pantalla=gui.getDisplay();
 		Position posicion = new Position();
 		posicion = readPosition();
 		Board aux = randomIA.getOwn();
 
 		if (aux.board[posicion.getX()][posicion.getY()] == 1 && this.board[posicion.getX()][posicion.getY()] < 2) {
-			System.out.println("Bot Hit!");
+			pantalla.append("Bot Hit!");
 			this.board[posicion.getX()][posicion.getY()] = 2;
 			this.numberBoats--;
 		} else {
-			System.out.println("Water!");
+			pantalla.append("Water!");
 			this.board[posicion.getX()][posicion.getY()] = 3;
 		}
 
@@ -393,17 +431,17 @@ public class Board {
 	 * @param player
 	 */
 	public void attackRandom(IPlayer player) {
-
+		pantalla=gui.getDisplay();
 		Position posicion = new Position();
 		posicion = generatePosition();
 		Board aux = player.getOwn();
 
 		if (aux.board[posicion.getX()][posicion.getY()] == 1 && this.board[posicion.getX()][posicion.getY()] < 2) {
-			System.out.println("Bot Hit!");
+			pantalla.append("Bot Hit!");
 			this.board[posicion.getX()][posicion.getY()] = 2;
 			this.numberBoats--;
 		} else {
-			System.out.println("Water!");
+			pantalla.append("Water!");
 			this.board[posicion.getX()][posicion.getY()] = 3;
 		}
 	}

@@ -40,7 +40,7 @@ public class MenuTest {
 	@Test
 	public void testMenuOptions() {
 		int[] input = new int[] { 2 };
-		new Menu(new ManagerIOMock(input));
+		//new Menu(new ManagerIOMock(input));
 		String expected = "------Main Menu------\n" + "1- Play\n" + "2- Exit\n" + "Exiting Game";
 		assertEquals(expected, result.toString());
 	}
@@ -52,7 +52,7 @@ public class MenuTest {
 	@Test
 	public void testMenuRunning() {
 
-		new Menu(new ManagerIOMock(Constants.WINNER_PLAYER_SEQUENCE, Constants.WINNER_IA_SEQUENCE));
+		//new Menu(new ManagerIOMock(Constants.WINNER_PLAYER_SEQUENCE, Constants.WINNER_IA_SEQUENCE));
 		assertTrue(result.toString().contains("------Starting Game------"));
 	}
 
@@ -62,7 +62,7 @@ public class MenuTest {
 	@Test
 	public void testMenuExit() {
 		int[] input = new int[] { 2 };
-		new Menu(new ManagerIOMock(input));
+		//new Menu(new ManagerIOMock(input));
 		String expected = "------Main Menu------\n" + "1- Play\n" + "2- Exit\n" + "Exiting Game";
 		assertEquals(expected, result.toString());
 	}
@@ -75,7 +75,7 @@ public class MenuTest {
 	public void testMenuBadOption() {
 
 		int[] input = new int[] { 0, 4, -1, 4, 2, 3 };
-		new Menu(new ManagerIOMock(input));
+		//new Menu(new ManagerIOMock(input));
 		assertTrue(result.toString().contains("Invalid Option!"));
 	}
 

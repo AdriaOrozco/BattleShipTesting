@@ -32,11 +32,11 @@ task customFatJar(type: Jar) {
 
     manifest {
 
-        attributes 'Main-Class': 'BattelshipTesting.Game'
+        attributes 'Main-Class': 'BattelshipTesting.MockObjGUI'
 
     }
 
-    baseName = 'all-in-one-jar'
+    baseName = 'jarInterfazV1'
 
     from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
 

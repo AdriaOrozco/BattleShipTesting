@@ -16,7 +16,7 @@ public class Menu {
 	IManagerIO managerIO;
 	JTextArea pantalla;
 	MockObjGUI gui;
-	public Menu(IManagerIO managerIO, MockObjGUI obj) {
+	public Menu(IManagerIO managerIO, MockObjGUI obj) throws InterruptedException {
 		this.managerIO = managerIO;
 		gui=obj;
 		this.showMenu();
@@ -28,7 +28,6 @@ public class Menu {
 	 * Displays the main menu of the game
 	 */
 	public void showMenu() {
-		
 		pantalla=gui.getDisplay();
 		pantalla.append("------Main Menu------\n");
 		pantalla.append("1- Play\n");
@@ -39,26 +38,30 @@ public class Menu {
 	 * The user selects the option
 	 * 
 	 * @param managerIO
+	 * @throws InterruptedException 
 	 */
-	public void getOption(IManagerIO managerIO) {
+	public void getOption(IManagerIO managerIO) throws InterruptedException {
 
-		int option = managerIO.inInt();
+		//int option = managerIO.inInt();
+		
+		int option=gui.getDisplay2();
+		Thread.sleep(1000);
+		pantalla.setText("");
 		switch (option) {
-		case 1:
-			System.out.print("------Starting Game------");
-			new Match(this.managerIO);
-			break;
-		case 2:
-			System.out.print("Exiting Game");
-			break;
-		default:
-			System.out.print("Invalid Option!");
-			this.showMenu();
-			this.getOption(managerIO);
-			break;
+			case 1:
+				pantalla.append("------Starting Game------");
+				new Match(this.managerIO, gui);
+				break;
+			case 2:
+				pantalla.append("Exiting Game");
+				break;
+			default:
+				this.showMenu();
+				this.getOption(managerIO);
+				break;
 
 		}
-
+		
 	}
 
 }

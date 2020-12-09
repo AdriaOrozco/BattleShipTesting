@@ -56,7 +56,7 @@ public class MatchTest {
 		int[] arrayInputRandom = new int[] { 1, 1, 1, 1, 3, 1, 1, 5, 1, 1, 7, 1, 1, 9, 1, 6, 1, 0, 8, 1, 0, 10, 1, 0, 8,
 				8, 0, 10, 8, 0, 1, 1, 1, 3, 1, 5, 1, 7, 1, 9, 6, 1, 8, 1, 10, 1, 8, 8, 10, 8 };
 
-		new Menu(new ManagerIOMock(arrayInputPlayer, arrayInputRandom));
+		//new Menu(new ManagerIOMock(arrayInputPlayer, arrayInputRandom));
 
 		assertTrue(result.toString().contains("Game winner: HumanPlayer!!!"));
 	}
@@ -78,7 +78,7 @@ public class MatchTest {
 		int[] arrayInputPlayer = new int[] { 1, 1, 1, 1, 1, 3, 1, 1, 5, 1, 1, 7, 1, 1, 9, 1, 6, 1, 0, 8, 1, 0, 10, 1, 0,
 				8, 8, 0, 10, 8, 0 };
 
-		new Menu(new ManagerIOMock(arrayInputPlayer, arrayInputRandom));
+		//new Menu(new ManagerIOMock(arrayInputPlayer, arrayInputRandom));
 		assertTrue(result.toString().contains("Game winner: RandomIA!!!"));
 	}
 

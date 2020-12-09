@@ -1,5 +1,7 @@
 package BattelshipTesting;
 
+import javax.swing.JTextArea;
+
 import interfaces.IManagerIO;
 import utils.Constants;
 
@@ -12,10 +14,10 @@ import utils.Constants;
 public class Match {
 
 	IManagerIO managerIO;
-
+	JTextArea pantalla;
 	Player randomIA;
 	Player user;
-
+	MockObjGUI gui;
 	boolean endGame = false;
 	boolean playerTurn = true;
 
@@ -23,18 +25,20 @@ public class Match {
 	 * Default constructor
 	 * 
 	 * @param managerIO
+	 * @throws InterruptedException 
 	 */
-	public Match(IManagerIO managerIO) {
-
-		this.user = new Player(Constants.NAME_PLAYER, managerIO);
-		this.randomIA = new Player(Constants.RANDOM_PLAYER_IA, managerIO);
+	public Match(IManagerIO managerIO, MockObjGUI uno) throws InterruptedException {
+		gui=uno;
+		this.user = new Player(Constants.NAME_PLAYER, managerIO, gui);
+		this.randomIA = new Player(Constants.RANDOM_PLAYER_IA, managerIO, gui);
 		this.startMatch();
 	}
 
 	/**
 	 * Main match/game loop
+	 * @throws InterruptedException 
 	 */
-	public void startMatch() {
+	public void startMatch() throws InterruptedException {
 
 		while (!this.endGame) {
 
@@ -57,11 +61,11 @@ public class Match {
 	 * Tells us who wins the game
 	 */
 	public void showWinner() {
-
+		pantalla=gui.getDisplay();
 		if (this.user.isWinning()) {
-			System.out.println("Game winner: " + this.user.getName() + "!!!");
+			pantalla.append("Game winner: " + this.user.getName() + "!!!");
 		} else {
-			System.out.println("Game winner: " + this.randomIA.getName() + "!!!");
+			pantalla.append("Game winner: " + this.randomIA.getName() + "!!!");
 		}
 	}
 
