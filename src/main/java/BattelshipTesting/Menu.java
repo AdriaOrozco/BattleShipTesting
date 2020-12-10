@@ -45,7 +45,7 @@ public class Menu {
 		//int option = managerIO.inInt();
 		
 		int option=gui.getDisplay2();
-		Thread.sleep(1000);
+		Thread.sleep(500);
 		pantalla.setText("");
 		switch (option) {
 			case 1:
